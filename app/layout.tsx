@@ -3,8 +3,8 @@ import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SIPREP",
-  description: "A Next.js application",
+  title: "IGGY WIKI",
+  description: "A resource for St. Ignatius College Preparatory information",
 };
 
 export default function RootLayout({
@@ -19,7 +19,7 @@ export default function RootLayout({
           <div className="max-w-6xl mx-auto px-8 py-4 flex items-center justify-between">
             <Link href="/">
               <h1 className="text-2xl font-bold text-blue-800 tracking-tight">
-                SIPREP Wiki
+                IGGY WIKI
               </h1>
             </Link>
             <nav>
@@ -54,6 +54,14 @@ export default function RootLayout({
                     className="font-medium text-gray-700 hover:text-blue-600 transition-colors"
                   >
                     Menu
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/contact"
+                    className="font-medium text-gray-700 hover:text-blue-600 transition-colors"
+                  >
+                    Contact
                   </Link>
                 </li>
               </ul>
