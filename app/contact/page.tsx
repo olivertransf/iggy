@@ -7,7 +7,7 @@ export default function ContactPage() {
         Contact Us
       </h2>
       <p className="text-lg text-gray-700 mb-8">
-        Have questions, suggestions, or feedback about IGGY WIKI? We'd love to hear from you!
+        Have questions, suggestions, or feedback about IGGY WIKI? We&apos;d love to hear from you!
       </p>
 
       <div className="bg-white border border-gray-200 rounded-lg p-8 shadow-sm">
