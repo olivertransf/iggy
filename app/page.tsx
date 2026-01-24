@@ -1,18 +1,12 @@
-import { Button } from "@/components/ui/Button";
-import Link from "next/link";
-
 export default function Home() {
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold mb-4">Hello World</h1>
-      <div className="flex gap-4">
-        <Link href="/teachers">
-          <Button variant="secondary">View Teachers</Button>
-        </Link>
-        <Link href="/courses">
-          <Button variant="secondary">View Courses</Button>
-        </Link>
-      </div>
-    </div>
+    <main className="max-w-4xl mx-auto px-8 py-12">
+      <h2 className="text-3xl font-bold mb-4 text-gray-900">
+        Welcome to the SIPREP Wiki
+      </h2>
+      <p className="text-lg text-gray-700">
+        Explore information about our faculty and courses using the links above.
+      </p>
+    </main>
   );
 }

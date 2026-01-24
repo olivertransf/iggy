@@ -1,0 +1,35 @@
+name: Scrape lunch menu
+
+on:
+  schedule:
+    # Every Sunday at 2am UTC (e.g. 6pm Saturday PST, 9pm Saturday EST)
+    - cron: "0 2 * * 0"
+  workflow_dispatch:
+    # Allow manual run from GitHub Actions tab
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4 pandas
+
+      - name: Run scraper
+        run: python scripts/scrape_menu.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/lunch_menu.csv public/lunch_menu.json
+          git diff --staged --quiet || (git commit -m "chore: update lunch menu" && git push)

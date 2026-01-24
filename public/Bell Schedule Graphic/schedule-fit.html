@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bell Schedule - This Week</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #f1f5f9; }
+    .fit-container { overflow: auto; width: 100%; height: 100%; padding: 4px; }
+    .fit-inner { display: flex; align-items: flex-start; justify-content: center; }
+    .fit-wrapper { flex-shrink: 0; transform-origin: top center; box-shadow: 0 4px 24px rgba(0,0,0,.08); border-radius: 8px; overflow: hidden; background: #fff; }
+    .fit-wrapper iframe { display: block; border: none; }
+  </style>
+</head>
+<body>
+  <div class="fit-container">
+    <div class="fit-inner" id="inner">
+    <div class="fit-wrapper" id="wrapper">
+      <iframe id="schedule" src="Week of Jan 19.html" title="Week of January 19, 2026"></iframe>
+    </div>
+    </div>
+  </div>
+  <script>
+    (function() {
+      var iframe = document.getElementById('schedule');
+      var wrapper = document.getElementById('wrapper');
+
+      function getContentSize() {
+        try {
+          var doc = iframe.contentDocument || iframe.contentWindow.document;
+          var table = doc && doc.querySelector('.ritz .waffle');
+          if (table) {
+            return { w: table.offsetWidth || table.scrollWidth, h: table.offsetHeight || table.scrollHeight };
+          }
+          var grid = doc && doc.querySelector('.ritz.grid-container');
+          if (grid) return { w: grid.scrollWidth, h: grid.scrollHeight };
+        } catch (e) {}
+        return { w: 1000, h: 640 };
+      }
+
+      function fit() {
+        var containerPadding = 16;
+        var vw = window.innerWidth - (containerPadding * 2);
+        var vh = window.innerHeight - (containerPadding * 2);
+        var size = getContentSize();
+        var scale = Math.min(vw / size.w, vh / size.h, 1);
+        wrapper.style.transform = 'scale(' + scale + ')';
+        iframe.style.width = size.w + 'px';
+        iframe.style.height = size.h + 'px';
+      }
+
+      function injectCleanupStyles(doc) {
+        if (!doc || !doc.body) return;
+        doc.body.style.margin = '0';
+        doc.body.style.overflow = 'hidden';
+      }
+
+      iframe.onload = function() {
+        try {
+          var doc = iframe.contentDocument;
+          if (doc) injectCleanupStyles(doc);
+        } catch (e) {}
+        fit();
+        setTimeout(fit, 150);
+        setTimeout(fit, 600);
+      };
+      window.addEventListener('resize', fit);
+    })();
+  </script>
+</body>
+</html>
