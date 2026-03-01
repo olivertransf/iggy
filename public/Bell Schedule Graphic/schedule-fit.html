@@ -35,6 +35,7 @@
   <script>
     (function() {
       var WEEKS = [
+        { file: 'SI Bell Schedule.pdf', label: 'Default Schedule (PDF)' },
         { file: 'Fall 2025.html', label: 'Fall 2025 (Overview)' },
         { file: 'Spring 2026.html', label: 'Spring 2026 (Overview)' },
         { file: 'Week of Jan 12.html', label: 'Week of Jan 12' },
@@ -59,44 +60,47 @@
         { file: 'Week of Dec 15.html', label: 'Week of Dec 15' }
       ];
 
+      var DEFAULT_SCHEDULE = 'SI Bell Schedule.pdf';
+
       var iframe = document.getElementById('schedule');
       var wrapper = document.getElementById('wrapper');
       var select = document.getElementById('week-select');
 
-      function parseWeekLabel(label) {
-        var m = label.match(/Week of (Jan|Feb|Mar|April|May|June|July|Aug|Sept|Sept\.|Oct|Nov|Dec)\s+(\d+)/i);
-        if (!m) return null;
-        var months = { jan:1,feb:2,mar:3,april:4,may:5,june:6,july:7,aug:8,sept:9,oct:10,nov:11,dec:12 };
-        var mon = months[m[1].toLowerCase().slice(0,3)];
-        var day = parseInt(m[2], 10);
-        return { month: mon, day: day };
+      function getMondayOfWeek(d) {
+        var date = new Date(d);
+        var day = date.getDay();
+        var diff = date.getDate() - day + (day === 0 ? -6 : 1);
+        return new Date(date.setDate(diff));
+      }
+
+      function formatWeekKey(d) {
+        var months = ['Jan','Feb','Mar','April','May','June','July','Aug','Sept','Oct','Nov','Dec'];
+        return 'Week of ' + months[d.getMonth()] + ' ' + d.getDate();
       }
 
       function getCurrentWeekFile() {
-        var now = new Date();
-        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        var best = WEEKS[2];
-        var bestDist = Infinity;
+        var today = new Date();
+        var monday = getMondayOfWeek(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
+        var weekKey = formatWeekKey(monday);
         for (var i = 2; i < WEEKS.length; i++) {
-          var w = WEEKS[i];
-          var p = parseWeekLabel(w.label);
-          if (!p) continue;
-          var weekStart = new Date(now.getFullYear(), p.month - 1, p.day);
-          var weekEnd = new Date(weekStart);
-          weekEnd.setDate(weekEnd.getDate() + 6);
-          if (today >= weekStart && today <= weekEnd) return w.file;
-          if (weekStart <= today) {
-            var d = (today - weekStart) / 86400000;
-            if (d < bestDist) { bestDist = d; best = w.file; }
-          }
+          if (WEEKS[i].label === weekKey) return WEEKS[i].file;
         }
-        return best;
+        return DEFAULT_SCHEDULE;
       }
 
       function initSelect() {
         var params = new URLSearchParams(window.location.search);
         var chosen = params.get('week');
-        if (!chosen) chosen = getCurrentWeekFile();
+        var thisWeekFile = getCurrentWeekFile();
+        if (!chosen) chosen = thisWeekFile;
+        var hasExactWeek = WEEKS.some(function(w) { return w.file === thisWeekFile; });
+        if (!hasExactWeek) {
+          var opt0 = document.createElement('option');
+          opt0.value = thisWeekFile;
+          opt0.textContent = 'This week (default schedule)';
+          if (chosen === thisWeekFile) opt0.selected = true;
+          select.appendChild(opt0);
+        }
         WEEKS.forEach(function(w) {
           var opt = document.createElement('option');
           opt.value = w.file;
@@ -104,7 +108,7 @@
           if (w.file === chosen) opt.selected = true;
           select.appendChild(opt);
         });
-        if (!chosen) chosen = WEEKS[2].file;
+        if (!select.value) select.selectedIndex = 0;
         iframe.src = chosen;
         iframe.title = select.options[select.selectedIndex].text;
       }
