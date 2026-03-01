@@ -1,27 +1,27 @@
 [
   {
     "day": "Mon",
-    "date": "2/23",
-    "menu": "Teriyaki Chicken & Rice Bowl"
+    "date": "3/2",
+    "menu": "Crispy Chicken & Waffle Stack"
   },
   {
     "day": "Tues",
-    "date": "2/24",
-    "menu": "Chicken Chow Mein"
+    "date": "3/3",
+    "menu": "Kung Pao Chicken & Rice Bowl"
   },
   {
     "day": "Wed",
-    "date": "2/25",
-    "menu": "Beef Nachos Supreme"
+    "date": "3/4",
+    "menu": "Classic Cheeseburger & Fries"
   },
   {
     "day": "Thurs",
-    "date": "2/26",
-    "menu": "Spicy BBQ Korean Pork and Rice Bowl"
+    "date": "3/5",
+    "menu": "Dim Sum & Fried Rice"
   },
   {
     "day": "Fri",
-    "date": "2/27",
-    "menu": "Cheesy Ravioli Marinara"
+    "date": "3/6",
+    "menu": "Mac & Cheese"
   }
 ]
