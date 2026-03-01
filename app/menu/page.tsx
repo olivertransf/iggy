@@ -1,6 +1,8 @@
 import fs from "fs";
 import path from "path";
 
+export const dynamic = "force-dynamic";
+
 interface MenuItem {
   day: string;
   date: string;

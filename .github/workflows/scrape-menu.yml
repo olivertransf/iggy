@@ -2,10 +2,8 @@ name: Scrape lunch menu
 
 on:
   schedule:
-    # Every Sunday at 2am UTC (e.g. 6pm Saturday PST, 9pm Saturday EST)
     - cron: "0 2 * * 0"
   workflow_dispatch:
-    # Allow manual run from GitHub Actions tab
 
 jobs:
   scrape:
@@ -32,4 +30,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add public/lunch_menu.csv public/lunch_menu.json
-          git diff --staged --quiet || (git commit -m "chore: update lunch menu" && git push)
+          git diff --staged --quiet && echo "No changes" || (
+            git commit -m "chore: update lunch menu [skip ci]" &&
+            git push
+          )
