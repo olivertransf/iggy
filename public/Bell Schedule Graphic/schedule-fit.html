@@ -6,25 +6,117 @@
   <title>Bell Schedule - This Week</title>
   <style>
     * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #f1f5f9; }
-    .fit-container { overflow: auto; width: 100%; height: 100%; padding: 4px; }
-    .fit-inner { display: flex; align-items: flex-start; justify-content: center; }
+    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    .nav-bar { padding: 8px 12px; background: #fff; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .nav-bar label { font-weight: 500; color: #374151; font-size: 14px; }
+    .nav-bar select { padding: 6px 10px; border: 1px solid #d1d5db; border-radius: 6px; background: #fff; font-size: 14px; color: #111827; min-width: 200px; cursor: pointer; }
+    .nav-bar select:hover, .nav-bar select:focus { border-color: #2563eb; outline: none; }
+    .content-wrap { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+    .fit-container { overflow: auto; flex: 1; padding: 4px; }
+    .fit-inner { display: flex; align-items: flex-start; justify-content: center; min-height: 100%; }
     .fit-wrapper { flex-shrink: 0; transform-origin: top center; box-shadow: 0 4px 24px rgba(0,0,0,.08); border-radius: 8px; overflow: hidden; background: #fff; }
     .fit-wrapper iframe { display: block; border: none; }
   </style>
 </head>
-<body>
-  <div class="fit-container">
-    <div class="fit-inner" id="inner">
-    <div class="fit-wrapper" id="wrapper">
-      <iframe id="schedule" src="Week of Jan 19.html" title="Week of January 19, 2026"></iframe>
-    </div>
+<body style="display: flex; flex-direction: column;">
+  <div class="nav-bar">
+    <label for="week-select">Week:</label>
+    <select id="week-select" aria-label="Select schedule week"></select>
+  </div>
+  <div class="content-wrap">
+    <div class="fit-container">
+      <div class="fit-inner" id="inner">
+        <div class="fit-wrapper" id="wrapper">
+          <iframe id="schedule" src="" title="Bell schedule"></iframe>
+        </div>
+      </div>
     </div>
   </div>
   <script>
     (function() {
+      var WEEKS = [
+        { file: 'Fall 2025.html', label: 'Fall 2025 (Overview)' },
+        { file: 'Spring 2026.html', label: 'Spring 2026 (Overview)' },
+        { file: 'Week of Jan 12.html', label: 'Week of Jan 12' },
+        { file: 'Week of Jan 19.html', label: 'Week of Jan 19' },
+        { file: 'Week of Feb 2.html', label: 'Week of Feb 2' },
+        { file: 'Week of Feb 16.html', label: 'Week of Feb 16' },
+        { file: 'Week of Mar 9.html', label: 'Week of Mar 9' },
+        { file: 'Week of Mar 30.html', label: 'Week of Mar 30' },
+        { file: 'Week of April 20.html', label: 'Week of April 20' },
+        { file: 'Week of April 27.html', label: 'Week of April 27' },
+        { file: 'Week of May 18.html', label: 'Week of May 18' },
+        { file: 'Week of May 25.html', label: 'Week of May 25' },
+        { file: 'Week of Aug 18.html', label: 'Week of Aug 18' },
+        { file: 'Week of Sept 1.html', label: 'Week of Sept 1' },
+        { file: 'Week of Sept 22.html', label: 'Week of Sept 22' },
+        { file: 'Week of Sept 29.html', label: 'Week of Sept 29' },
+        { file: 'Week of Oct 6.html', label: 'Week of Oct 6' },
+        { file: 'Week of Oct 20.html', label: 'Week of Oct 20' },
+        { file: 'Week of Nov 3.html', label: 'Week of Nov 3' },
+        { file: 'Week of Nov 10.html', label: 'Week of Nov 10' },
+        { file: 'Week of Dec 8.html', label: 'Week of Dec 8' },
+        { file: 'Week of Dec 15.html', label: 'Week of Dec 15' }
+      ];
+
       var iframe = document.getElementById('schedule');
       var wrapper = document.getElementById('wrapper');
+      var select = document.getElementById('week-select');
+
+      function parseWeekLabel(label) {
+        var m = label.match(/Week of (Jan|Feb|Mar|April|May|June|July|Aug|Sept|Sept\.|Oct|Nov|Dec)\s+(\d+)/i);
+        if (!m) return null;
+        var months = { jan:1,feb:2,mar:3,april:4,may:5,june:6,july:7,aug:8,sept:9,oct:10,nov:11,dec:12 };
+        var mon = months[m[1].toLowerCase().slice(0,3)];
+        var day = parseInt(m[2], 10);
+        return { month: mon, day: day };
+      }
+
+      function getCurrentWeekFile() {
+        var now = new Date();
+        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        var best = WEEKS[2];
+        var bestDist = Infinity;
+        for (var i = 2; i < WEEKS.length; i++) {
+          var w = WEEKS[i];
+          var p = parseWeekLabel(w.label);
+          if (!p) continue;
+          var weekStart = new Date(now.getFullYear(), p.month - 1, p.day);
+          var weekEnd = new Date(weekStart);
+          weekEnd.setDate(weekEnd.getDate() + 6);
+          if (today >= weekStart && today <= weekEnd) return w.file;
+          if (weekStart <= today) {
+            var d = (today - weekStart) / 86400000;
+            if (d < bestDist) { bestDist = d; best = w.file; }
+          }
+        }
+        return best;
+      }
+
+      function initSelect() {
+        var params = new URLSearchParams(window.location.search);
+        var chosen = params.get('week');
+        if (!chosen) chosen = getCurrentWeekFile();
+        WEEKS.forEach(function(w) {
+          var opt = document.createElement('option');
+          opt.value = w.file;
+          opt.textContent = w.label;
+          if (w.file === chosen) opt.selected = true;
+          select.appendChild(opt);
+        });
+        if (!chosen) chosen = WEEKS[2].file;
+        iframe.src = chosen;
+        iframe.title = select.options[select.selectedIndex].text;
+      }
+
+      select.addEventListener('change', function() {
+        var file = select.value;
+        iframe.src = file;
+        iframe.title = select.options[select.selectedIndex].text;
+        var url = new URL(window.location.href);
+        url.searchParams.set('week', file);
+        window.history.replaceState({}, '', url);
+      });
 
       function getContentSize() {
         try {
@@ -42,7 +134,7 @@
       function fit() {
         var containerPadding = 16;
         var vw = window.innerWidth - (containerPadding * 2);
-        var vh = window.innerHeight - (containerPadding * 2);
+        var vh = window.innerHeight - 60;
         var size = getContentSize();
         var scale = Math.min(vw / size.w, vh / size.h, 1);
         wrapper.style.transform = 'scale(' + scale + ')';
@@ -66,6 +158,7 @@
         setTimeout(fit, 600);
       };
       window.addEventListener('resize', fit);
+      initSelect();
     })();
   </script>
 </body>
