@@ -87,39 +87,29 @@ export default function CoursesClient({ courses: initialCourses }: CoursesClient
   ]);
 
   return (
-    <div className="p-8 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Course Catalog</h1>
+    <div className="page-main">
+      <h1 className="text-xl font-semibold text-neutral-900 dark:text-neutral-50 mb-6">Courses</h1>
 
-      <div className="mb-6 space-y-4 bg-gray-50 p-4 rounded-lg">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="mb-8 space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           <div>
-            <label
-              htmlFor="title-filter"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Title
-            </label>
+            <label htmlFor="title-filter" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Title</label>
             <input
               id="title-filter"
               type="text"
               value={titleFilter}
               onChange={(e) => setTitleFilter(e.target.value)}
-              placeholder="Search by title..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Search..."
+              className="input-base"
             />
           </div>
           <div>
-            <label
-              htmlFor="subject-filter"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Subject
-            </label>
+            <label htmlFor="subject-filter" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Subject</label>
             <select
               id="subject-filter"
               value={subjectFilter}
               onChange={(e) => setSubjectFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="input-base"
             >
               <option value="">All Subjects</option>
               {uniqueSubjects.map((subject) => (
@@ -130,17 +120,12 @@ export default function CoursesClient({ courses: initialCourses }: CoursesClient
             </select>
           </div>
           <div>
-            <label
-              htmlFor="grade-level-filter"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Grade Level
-            </label>
+            <label htmlFor="grade-level-filter" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Grade</label>
             <select
               id="grade-level-filter"
               value={gradeLevelFilter}
               onChange={(e) => setGradeLevelFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="input-base"
             >
               <option value="">All Grade Levels</option>
               {uniqueGradeLevels.map((level) => (
@@ -151,17 +136,12 @@ export default function CoursesClient({ courses: initialCourses }: CoursesClient
             </select>
           </div>
           <div>
-            <label
-              htmlFor="type-filter"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Type
-            </label>
+            <label htmlFor="type-filter" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Type</label>
             <select
               id="type-filter"
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="input-base"
             >
               <option value="">All Types</option>
               {uniqueTypes.map((type) => (
@@ -172,123 +152,75 @@ export default function CoursesClient({ courses: initialCourses }: CoursesClient
             </select>
           </div>
           <div>
-            <label
-              htmlFor="course-num-filter"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Course Number
-            </label>
+            <label htmlFor="course-num-filter" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Course #</label>
             <input
               id="course-num-filter"
               type="text"
               value={courseNumFilter}
               onChange={(e) => setCourseNumFilter(e.target.value)}
-              placeholder="Search by course number..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Search..."
+              className="input-base"
             />
           </div>
         </div>
-        <div className="text-sm text-gray-600">
-          Showing {filteredCourses.length} of {initialCourses.length} courses
+        <div className="text-sm text-neutral-500 dark:text-neutral-400">
+          {filteredCourses.length} of {initialCourses.length} courses
         </div>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-5">
         {filteredCourses.map((course, index) => (
-          <div
-            key={index}
-            className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow"
-          >
-            <div className="flex justify-between items-start mb-3">
-              <div>
-                <h2 className="text-xl font-semibold mb-2">
-                  {course.url ? (
-                    <Link
-                      href={course.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-800 hover:underline"
-                    >
-                      {course.title}
-                    </Link>
-                  ) : (
-                    course.title
-                  )}
-                </h2>
-                {course.course_num && (
-                  <p className="text-sm text-gray-500">
-                    Course #: {course.course_num}
-                  </p>
+          <div key={index} className="card p-5">
+            <div className="mb-4">
+              <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
+                {course.url ? (
+                  <Link
+                    href={course.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#A71930] dark:text-sky-400 hover:underline dark:hover:text-sky-300"
+                  >
+                    {course.title}
+                  </Link>
+                ) : (
+                  course.title
                 )}
-              </div>
+              </h2>
+              {course.course_num && (
+                <p className="text-base text-neutral-500 dark:text-neutral-400 mt-1">{course.course_num}</p>
+              )}
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4 text-sm">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 mb-4 text-base">
               {course.subjects && (
-                <div>
-                  <span className="font-medium text-gray-700">Subjects: </span>
-                  <span className="text-gray-600">{course.subjects}</span>
-                </div>
+                <div><span className="text-neutral-500 dark:text-neutral-400">Subjects: </span><span className="text-neutral-700 dark:text-neutral-300">{course.subjects}</span></div>
               )}
               {course.grade_levels && (
-                <div>
-                  <span className="font-medium text-gray-700">
-                    Grade Levels:{" "}
-                  </span>
-                  <span className="text-gray-600">{course.grade_levels}</span>
-                </div>
+                <div><span className="text-neutral-500 dark:text-neutral-400">Grade: </span><span className="text-neutral-700 dark:text-neutral-300">{course.grade_levels}</span></div>
               )}
               {course.length && (
-                <div>
-                  <span className="font-medium text-gray-700">Length: </span>
-                  <span className="text-gray-600">{course.length}</span>
-                </div>
+                <div><span className="text-neutral-500 dark:text-neutral-400">Length: </span><span className="text-neutral-700 dark:text-neutral-300">{course.length}</span></div>
               )}
               {course.type && (
-                <div>
-                  <span className="font-medium text-gray-700">Type: </span>
-                  <span className="text-gray-600">{course.type}</span>
-                </div>
+                <div><span className="text-neutral-500 dark:text-neutral-400">Type: </span><span className="text-neutral-700 dark:text-neutral-300">{course.type}</span></div>
               )}
               {course.uccsu && (
-                <div>
-                  <span className="font-medium text-gray-700">UCCSU: </span>
-                  <span className="text-gray-600">{course.uccsu}</span>
-                </div>
+                <div><span className="text-neutral-500 dark:text-neutral-400">UCCSU: </span><span className="text-neutral-700 dark:text-neutral-300">{course.uccsu}</span></div>
               )}
               {course.fulfillment && (
-                <div>
-                  <span className="font-medium text-gray-700">
-                    Fulfillment:{" "}
-                  </span>
-                  <span className="text-gray-600">{course.fulfillment}</span>
-                </div>
+                <div><span className="text-neutral-500 dark:text-neutral-400">Fulfillment: </span><span className="text-neutral-700 dark:text-neutral-300">{course.fulfillment}</span></div>
               )}
             </div>
 
             {course.prereq && (
-              <div className="mb-3 text-sm">
-                <span className="font-medium text-gray-700">
-                  Prerequisites:{" "}
-                </span>
-                <span className="text-gray-600">{course.prereq}</span>
-              </div>
+              <div className="mb-2 text-base"><span className="text-neutral-500 dark:text-neutral-400">Prereq: </span><span className="text-neutral-700 dark:text-neutral-300">{course.prereq}</span></div>
             )}
-
             {course.enroll_criteria && (
-              <div className="mb-3 text-sm">
-                <span className="font-medium text-gray-700">
-                  Enrollment Criteria:{" "}
-                </span>
-                <span className="text-gray-600">{course.enroll_criteria}</span>
-              </div>
+              <div className="mb-2 text-base"><span className="text-neutral-500 dark:text-neutral-400">Enroll: </span><span className="text-neutral-700 dark:text-neutral-300">{course.enroll_criteria}</span></div>
             )}
-
             {course.description && (
-              <div className="mt-4 pt-4 border-t border-gray-200">
-                <p className="text-sm text-gray-700 whitespace-pre-line">
-                  {course.description}
-                </p>
+              <div className="mt-4 pt-4 border-t border-neutral-200 dark:border-neutral-700">
+                <p className="text-base text-neutral-700 dark:text-neutral-300 whitespace-pre-line leading-relaxed">{course.description}</p>
               </div>
             )}
           </div>

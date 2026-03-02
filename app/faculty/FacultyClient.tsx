@@ -4,11 +4,11 @@ import { useState, useMemo } from "react";
 import Image from "next/image";
 import { Teacher } from "@/types";
 
-interface TeachersClientProps {
+interface FacultyClientProps {
   teachers: Teacher[];
 }
 
-export default function TeachersClient({ teachers: initialTeachers }: TeachersClientProps) {
+export default function FacultyClient({ teachers: initialTeachers }: FacultyClientProps) {
   const [nameFilter, setNameFilter] = useState("");
   const [departmentFilter, setDepartmentFilter] = useState("");
   const [titleFilter, setTitleFilter] = useState("");
@@ -44,39 +44,29 @@ export default function TeachersClient({ teachers: initialTeachers }: TeachersCl
   }, [initialTeachers, nameFilter, departmentFilter, titleFilter]);
 
   return (
-    <div className="p-8 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Faculty Directory</h1>
+    <div className="page-main">
+      <h1 className="text-xl font-semibold text-neutral-900 dark:text-neutral-50 mb-6">Faculty</h1>
 
-      <div className="mb-6 space-y-4 bg-gray-50 p-4 rounded-lg">
+      <div className="mb-8 space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label
-              htmlFor="name-filter"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Name
-            </label>
+            <label htmlFor="name-filter" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Name</label>
             <input
               id="name-filter"
               type="text"
               value={nameFilter}
               onChange={(e) => setNameFilter(e.target.value)}
               placeholder="Search by name..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="input-base"
             />
           </div>
           <div>
-            <label
-              htmlFor="department-filter"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Department
-            </label>
+            <label htmlFor="department-filter" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Department</label>
             <select
               id="department-filter"
               value={departmentFilter}
               onChange={(e) => setDepartmentFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="input-base"
             >
               <option value="">All Departments</option>
               {uniqueDepartments.map((dept) => (
@@ -87,52 +77,45 @@ export default function TeachersClient({ teachers: initialTeachers }: TeachersCl
             </select>
           </div>
           <div>
-            <label
-              htmlFor="title-filter"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Title
-            </label>
+            <label htmlFor="title-filter" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Title</label>
             <input
               id="title-filter"
               type="text"
               value={titleFilter}
               onChange={(e) => setTitleFilter(e.target.value)}
               placeholder="Search by title..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="input-base"
             />
           </div>
         </div>
-        <div className="text-sm text-gray-600">
-          Showing {filteredTeachers.length} of {initialTeachers.length} teachers
+        <div className="text-sm text-neutral-500 dark:text-neutral-400">
+          {filteredTeachers.length} of {initialTeachers.length} faculty
         </div>
       </div>
 
-      <ul className="space-y-4">
+      <ul className="space-y-4 divide-y divide-neutral-200 dark:divide-neutral-800">
         {filteredTeachers.map((teacher, index) => (
-          <li key={index} className="border-b border-gray-200 pb-4">
+          <li key={index} className="pt-5 first:pt-0">
             <div className="flex gap-4">
               {teacher.imageUrl && (
                 <div className="flex-shrink-0">
                   <Image
                     src={teacher.imageUrl}
                     alt={teacher.name}
-                    width={100}
-                    height={100}
-                    className="rounded object-cover"
+                    width={64}
+                    height={64}
+                    className="rounded-lg object-cover ring-1 ring-neutral-200 dark:ring-neutral-700"
                   />
                 </div>
               )}
-              <div className="flex flex-col gap-1">
-                <h2 className="text-lg font-semibold">{teacher.name}</h2>
-                {teacher.titles && (
-                  <p className="text-sm text-gray-600">{teacher.titles}</p>
-                )}
-                {teacher.departments && (
-                  <p className="text-sm text-gray-500">{teacher.departments}</p>
-                )}
+              <div className="flex flex-col gap-1 min-w-0">
+                <h2 className="font-medium text-neutral-900 dark:text-neutral-100">{teacher.name}</h2>
+                {teacher.titles && <p className="text-sm text-neutral-600 dark:text-neutral-400">{teacher.titles}</p>}
+                {teacher.departments && <p className="text-sm text-neutral-500 dark:text-neutral-400">{teacher.departments}</p>}
                 {teacher.email && (
-                  <p className="text-sm text-blue-600">{teacher.email}</p>
+                  <a href={`mailto:${teacher.email}`} className="text-sm text-[#A71930] dark:text-sky-400 hover:underline dark:hover:text-sky-300">
+                    {teacher.email}
+                  </a>
                 )}
               </div>
             </div>

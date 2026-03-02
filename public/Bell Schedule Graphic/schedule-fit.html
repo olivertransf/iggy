@@ -12,15 +12,24 @@
     .nav-bar select { padding: 6px 10px; border: 1px solid #d1d5db; border-radius: 6px; background: #fff; font-size: 14px; color: #111827; min-width: 200px; cursor: pointer; }
     .nav-bar select:hover, .nav-bar select:focus { border-color: #2563eb; outline: none; }
     .content-wrap { flex: 1; min-height: 0; display: flex; flex-direction: column; }
-    .fit-container { overflow: auto; flex: 1; padding: 4px; }
+    .fit-container { overflow: hidden; flex: 1; padding: 4px; }
     .fit-inner { display: flex; align-items: flex-start; justify-content: center; min-height: 100%; }
     .fit-wrapper { flex-shrink: 0; transform-origin: top center; box-shadow: 0 4px 24px rgba(0,0,0,.08); border-radius: 8px; overflow: hidden; background: #fff; }
     .fit-wrapper iframe { display: block; border: none; }
     .pdf-container { display: flex; flex-direction: column; align-items: center; gap: 0; }
     .pdf-container canvas { display: block; }
+    body.dark { background: #18181b; }
+    body.dark .nav-bar { background: #27272a; border-bottom-color: #3f3f46; }
+    body.dark .nav-bar label { color: #f4f4f5; }
+    body.dark .nav-bar select { border-color: #3f3f46; background: #27272a; color: #f4f4f5; }
+    body.dark .nav-bar select:hover, body.dark .nav-bar select:focus { border-color: #38bdf8; }
+    body.dark .fit-container { background: #18181b; }
   </style>
 </head>
 <body style="display: flex; flex-direction: column;">
+  <script>
+    (function(){var p=new URLSearchParams(window.location.search);if(p.get('theme')==='dark')document.body.classList.add('dark');})();
+  </script>
   <div class="nav-bar">
     <label for="week-select">Week:</label>
     <select id="week-select" aria-label="Select schedule week"></select>

@@ -1,10 +1,19 @@
-import type { Metadata } from "next";
-import Link from "next/link";
+import type { Metadata, Viewport } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/Header";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: "IGGY WIKI",
   description: "A resource for St. Ignatius College Preparatory information",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({
@@ -13,64 +22,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="flex flex-col min-h-screen">
-        <header className="shrink-0 w-full border-b border-gray-200 bg-gray-50">
-          <div className="max-w-6xl mx-auto px-8 py-4 flex items-center justify-between">
-            <Link href="/">
-              <h1 className="text-2xl font-bold text-blue-800 tracking-tight">
-                IGGY WIKI
-              </h1>
-            </Link>
-            <nav>
-              <ul className="flex gap-6">
-                <li>
-                  <Link
-                    href="/teachers"
-                    className="font-medium text-gray-700 hover:text-blue-600 transition-colors"
-                  >
-                    Teachers
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/courses"
-                    className="font-medium text-gray-700 hover:text-blue-600 transition-colors"
-                  >
-                    Courses
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/schedule"
-                    className="font-medium text-gray-700 hover:text-blue-600 transition-colors"
-                  >
-                    Schedule
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/menu"
-                    className="font-medium text-gray-700 hover:text-blue-600 transition-colors"
-                  >
-                    Menu
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/contact"
-                    className="font-medium text-gray-700 hover:text-blue-600 transition-colors"
-                  >
-                    Contact
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </header>
+    <html lang="en" className={inter.variable}>
+      <body className="flex flex-col min-h-screen touch-manipulation font-sans text-base antialiased">
+        <Header />
         <div className="flex-1 min-h-0 flex flex-col">
           {children}
         </div>
+        <footer className="shrink-0 w-full border-t border-neutral-200 dark:border-zinc-800 bg-white dark:bg-[#18181b] py-6">
+          <div className="max-w-3xl mx-auto px-5 sm:px-8 text-center">
+            <a
+              href="mailto:iggywikiapp@gmail.com"
+              className="text-neutral-500 dark:text-neutral-400 hover:text-[#A71930] dark:hover:text-sky-400 text-sm transition-colors"
+            >
+              iggywikiapp@gmail.com
+            </a>
+          </div>
+        </footer>
       </body>
     </html>
   );

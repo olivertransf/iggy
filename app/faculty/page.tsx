@@ -1,11 +1,10 @@
 import { readFileSync } from "fs";
 import { join } from "path";
 import { Teacher } from "@/types";
-import TeachersClient from "./TeachersClient";
+import FacultyClient from "./FacultyClient";
 
 function parseCSV(content: string): Teacher[] {
   const lines = content.trim().split("\n");
-  const headers = lines[0].split(",");
   const data: Teacher[] = [];
 
   for (let i = 1; i < lines.length; i++) {
@@ -44,10 +43,10 @@ function parseCSV(content: string): Teacher[] {
   return data;
 }
 
-export default function TeachersPage() {
+export default function FacultyPage() {
   const filePath = join(process.cwd(), "public", "faculty_directory_complete.csv");
   const fileContent = readFileSync(filePath, "utf-8");
   const teachers = parseCSV(fileContent);
 
-  return <TeachersClient teachers={teachers} />;
+  return <FacultyClient teachers={teachers} />;
 }
