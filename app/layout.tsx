@@ -29,7 +29,7 @@ export default function RootLayout({
           {children}
         </div>
         <footer className="shrink-0 w-full border-t border-neutral-200 dark:border-zinc-800 bg-white dark:bg-[#18181b] py-6">
-          <div className="max-w-3xl mx-auto px-5 sm:px-8 text-center">
+          <div className="max-w-5xl mx-auto px-5 sm:px-8 text-center">
             <a
               href="mailto:iggywikiapp@gmail.com"
               className="text-neutral-500 dark:text-neutral-400 hover:text-[#A71930] dark:hover:text-sky-400 text-sm transition-colors"

@@ -15,7 +15,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   return (
     <header className="shrink-0 w-full bg-white dark:bg-zinc-900 border-b border-neutral-200 dark:border-zinc-800">
-      <div className="max-w-3xl mx-auto px-5 sm:px-8 py-3 flex items-center justify-between gap-4">
+      <div className="max-w-5xl mx-auto px-5 sm:px-8 py-3 flex items-center justify-between gap-4">
         <Link
           href="/"
           className="text-neutral-900 dark:text-neutral-50 hover:opacity-80 transition-opacity min-h-[44px] min-w-[44px] flex items-center"
