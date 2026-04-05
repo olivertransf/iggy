@@ -1,32 +1,32 @@
 [
   {
-    "day": "Fri",
-    "date": "3/27",
-    "menu": "Cheese Quesadilla Supreme & Mexican Ensalada"
-  },
-  {
-    "day": "Mon",
-    "date": "3/30",
-    "menu": "Pepperoni Pizza & Caesar Salad"
-  },
-  {
-    "day": "Tues",
-    "date": "3/31",
-    "menu": "Loaded Cheesy Bacon Fries"
-  },
-  {
     "day": "Wed",
     "date": "4/1",
     "menu": "Cheeseburger & Fries"
   },
   {
+    "day": "Mon",
+    "date": "4/13",
+    "menu": "Beef Nachos Supreme"
+  },
+  {
+    "day": "Tues",
+    "date": "4/14",
+    "menu": "BBQ Bowl with Chicken, Brisket, Ribs, Potato Salad, Corn Bread and Cole Slaw"
+  },
+  {
+    "day": "Wed",
+    "date": "4/15",
+    "menu": "Rigatoni with Creamy Bolognese Sauce"
+  },
+  {
     "day": "Thurs",
-    "date": "4/2",
-    "menu": "No School"
+    "date": "4/16",
+    "menu": "Crispy Chicken with Waffle Stack"
   },
   {
     "day": "Fri",
-    "date": "4/3",
-    "menu": "No School"
+    "date": "4/17",
+    "menu": "Clam Chowder Bread Bowl"
   }
 ]
